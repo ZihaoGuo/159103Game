@@ -51,7 +51,6 @@ public class TankGame extends GameEngine {
 		saveCurrentTransform();
 		translate(playerOne.getPositionX(), playerOne.getPositionY());
 		rotate(playerOne.getTurretAngle());
-		//rotate(playerTurretAngle+90);
 		drawImage(playerTurretImage, -48, -103.5);
 		restoreLastTransform();
 	}
@@ -93,25 +92,77 @@ public class TankGame extends GameEngine {
 	// Update the tank turret
 	public void updateTurret(double dt, Tank playerOne) {
 		double targetAngle = workOutAngle(playerOne.getPositionX(), playerOne.getPositionY(), mouseX, mouseY);
-
-		//This is to have the turret track to the cursor slowly, not perfect
-		/* if (playerTurretAngle > targetAngle) {
-			playerTurretAngle -= turretSpeed * dt;
-		}
-		if (playerTurretAngle < targetAngle) {
-			playerTurretAngle += turretSpeed * dt;
-		} */
-
+		//Figure out code to have the turret track to the cursor slowly
+		
 		//This makes the turret track exactly to the cursor
 		playerOne.setTurretAngle(targetAngle + 90);
 	}
 	
+	//-------------------------------------------------------
+	// AI Tanks
+	//-------------------------------------------------------
+
+	Tank[] enemyTankList;
+
+	private void initEnemyTankList() {
+		enemyTankList = new Tank[3];
+
+		for (Tank tank : enemyTankList) {
+			//Create tanks and set properties
+			//tank = new Tank(positionX, positionY, velocity, turnSpeed, turretSpeed)
+			//TODO: code for selecting type of tank(what sprite to use, health etc)
+		}
+
+	}
+
+	private void updateEnemyTankList(double dt) {
+		for (Tank tank : enemyTankList) {
+			//If tank is alive:
+			//Perform AI checks & movement
+			//aiMethodCheckPLayerInSight(tank, playerTank)
+			//aiMethodCheckInFiringRange(tank, playerTank)
+			//aiMethodMoveTowardsTarget(tank, playerTank)
+			//etc.
+		}
+
+	}
+
+	private void drawEnemyTankList() {
+		for (Tank tank : enemyTankList) {
+			//Draw enemy tanks!
+		}
+	}
+
+	private boolean checkTargetInSight(Tank aiTank, Tank targetTank) {
+		/* if (targetTank.getX & targetTank.getY are within circle: aiTank.getViewRange) {
+			return true;
+		} else {
+			return false;
+		} */
+		return false;
+	}
+
+	private boolean checkTargetInFiringRange(Tank aiTank, Tank targetTank) {
+		/* if (targetTank.getX & targetTank.getY are within circle: aiTank.getFiringRange) {
+			return true;
+		} else {
+			return false;
+		} */
+		return false;
+	}
 
 	//-------------------------------------------------------
 	// Game
 	//-------------------------------------------------------
 	// Spritesheet
 	Image playerSpritesheet;
+	Image kv2Spritesheet;
+	Image m6Spritesheet;
+	Image pz4Spritesheet;
+	Image pz4gSpritesheet;
+	Image t34Spritesheet;
+	Image tiger2Spritesheet;
+	Image vk3601hSpritesheet;
 	//Menu Screen
 	Image menuImage;
 	//Paused Screen
@@ -138,6 +189,13 @@ public class TankGame extends GameEngine {
 		setWindowSize(1024, 1024);
 		// Load sprites
 		playerSpritesheet = loadImage("Tanks\\E100.png");
+		kv2Spritesheet = loadImage("Tanks\\KV2.png");
+		m6Spritesheet = loadImage("Tanks\\M6.png");
+		pz4Spritesheet = loadImage("Tanks\\Pz4.png");
+		pz4gSpritesheet = loadImage("Tanks\\Pz4G.png");
+		t34Spritesheet = loadImage("Tanks\\T34.png");
+		tiger2Spritesheet = loadImage("Tanks\\Tiger2.png");
+		vk3601hSpritesheet = loadImage("Tanks\\VK3601h.png");
 		//Load Menu Image
 		menuImage = loadImage("Menu\\TankGame.png");
 		//Load Paused Image
@@ -159,6 +217,8 @@ public class TankGame extends GameEngine {
 		
 		// Initialise player
 		initPlayerTank();
+
+		initEnemyTankList();
 		
 	}
 
@@ -176,6 +236,8 @@ public class TankGame extends GameEngine {
 			updateTurret(dt,playerOne);
 			updateTank(dt,playerTwo);
 			updateTurret(dt,playerTwo);
+
+			updateEnemyTankList(dt);
 		}
 		if (state == GameState.MENU) { 
 			initPlayerTank();
@@ -209,6 +271,8 @@ public class TankGame extends GameEngine {
 				drawTank(playerTwo);
 				drawTurret(playerTwo);
 			}
+
+			drawEnemyTankList();
 			
 		// If the game is at menu
 		} else if(state == GameState.MENU) {
@@ -236,8 +300,6 @@ public class TankGame extends GameEngine {
 			drawImage(pausedImage, width()-1024, height()-1024);
 		}
 	}
-
-
 
 	// Called whenever a key is pressed
 	public void keyPressed(KeyEvent e) {

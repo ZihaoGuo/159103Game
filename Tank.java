@@ -21,6 +21,11 @@ public class Tank
   private double turretSpeed;
   private double turnSpeed;
 
+  // Tank Statistics
+  private double viewRange;
+  private double firingRange;
+  private int health;
+  private boolean firing;
 
   public Tank(double positionX, double positionY, double velocity, double turnSpeed, double turretSpeed){
     this.positionX = positionX;
@@ -33,6 +38,7 @@ public class Tank
     this.turnSpeed = turnSpeed;
     this.turretMovingLeft = false;
     this.turretMovingRight = false;
+    firing = false;
   }
 
   public void turnRight(double dt) {
@@ -60,17 +66,17 @@ public class Tank
   }
 
   // Positions
-  public void setPositionX(double positionX){
+  public void setPositionX(double positionX) {
     this.positionX = positionX;
   }
-  public double getPositionX(){
+  public double getPositionX() {
     return positionX;
   }
 
-  public void setPositionY(double positionY){
+  public void setPositionY(double positionY) {
     this.positionY = positionY;
   }
-  public double getPositionY(){
+  public double getPositionY() {
     return positionY;
   }
   // Velocities
@@ -148,5 +154,29 @@ public class Tank
   }
   public boolean getReverse(){
     return reverse;
+  }
+  public boolean getFiring(){
+    return firing;
+  }
+  public void setFiring(boolean firing) {
+    this.firing = firing;
+  }
+  public void setviewRange(double viewRange){
+    this.viewRange = viewRange;
+  }
+  public double getViewRange(){
+    return viewRange;
+  }
+  public void setFiringRange(double firingRange){
+    this.firingRange = firingRange;
+  }
+  public double getFiringRange(){
+    return firingRange;
+  }
+  public void setHealth(int health) {
+    this.health = health;
+  }
+  public int getHealth() {
+    return health;
   }
 }
